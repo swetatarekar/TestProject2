@@ -1,21 +1,9 @@
-﻿using LanguageDetection;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using SeleniumExtras.WaitHelpers;
+﻿using NUnit.Framework;
 
 namespace TestProject2
 {
-    public class Tests
+    public class Tests : BaseClass
     {
-        private IWebDriver _driver;
-
-        [SetUp]
-        public void Setup()
-        {
-            _driver = new ChromeDriver();
-        }
-
         [Test]
         public void Test1()
         {
@@ -26,7 +14,6 @@ namespace TestProject2
            Assert.True(titleElement.Text.Equals("Football"));
         }
 
-
         [Test]
         public void LoginTest()
         {
@@ -35,36 +22,6 @@ namespace TestProject2
             InputValues("[placeholder='Username']", "ludo195");
             InputValues("[placeholder='Password']", "password1234$");
             ClickElement(".loginButton.button.submitButton");
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            _driver.Close();
-            _driver.Quit();
-        }
-
-        public void NavigateTo(string URL)
-        {
-            _driver.Navigate().GoToUrl(URL);
-            _driver.Manage().Window.Maximize();
-        }
-
-        public void InputValues(string elementSelector, string inputValue)
-        {
-            _driver.FindElement(By.CssSelector(elementSelector)).Clear();
-            _driver.FindElement(By.CssSelector(elementSelector)).SendKeys(inputValue);
-        }
-
-        public void ClickElement(string cssSelector, int seconds = 20)
-        {
-            WaitForElement(cssSelector, seconds).Click();
-        }
-
-        public IWebElement WaitForElement(string cssSelector, int seconds = 20)
-        {
-            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(seconds));
-            return wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector)));
         }
     }
 }
