@@ -8,12 +8,12 @@ namespace TestProject2
 {
     public class BaseClass
     {
-        private IWebDriver _driver;
+        private IWebDriver _driver = new ChromeDriver();
 
-         [SetUp]
+        [SetUp]
         public void Setup()
         {
-            _driver = new ChromeDriver();
+            // _driver = new ChromeDriver();
         }
 
         public void NavigateTo(string URL)
@@ -24,16 +24,16 @@ namespace TestProject2
 
         public void InputValues(string elementSelector, string inputValue)
         {
-            WaitForElement(elementSelector).Clear();
-            WaitForElement(elementSelector).SendKeys(inputValue);
+            GetElement(elementSelector).Clear();
+            GetElement(elementSelector).SendKeys(inputValue);
         }
 
         public void ClickElement(string cssSelector, int seconds = 20)
         {
-            WaitForElement(cssSelector, seconds).Click();
+            GetElement(cssSelector, seconds).Click();
         }
 
-        public IWebElement WaitForElement(string cssSelector, int seconds = 20)
+        public IWebElement GetElement(string cssSelector, int seconds = 20)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(seconds));
             return wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(cssSelector)));
